@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BelajarPRO Elite — Platform Olimpiade Akademik</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0A0E1A;--navy2:#0F1629;--navy3:#141C35;
+  --indigo:#4F46E5;--indigo2:#6366F1;
+  --gold:#F59E0B;--gold2:#FCD34D;
+  --cyan:#06B6D4;--cyan2:#22D3EE;
+  --green:#10B981;--red:#EF4444;
+  --purple:#8B5CF6;--pink:#EC4899;--orange:#F97316;
+  --white:#F8FAFC;--gray:#94A3B8;--gray2:#64748B;
+  --border:rgba(79,70,229,0.2);
+  --gi:0 0 30px rgba(79,70,229,0.4);
+  --gg:0 0 20px rgba(245,158,11,0.4);
+  --gc:0 0 20px rgba(6,182,212,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--navy);color:var(--white);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
+#cvs{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+.app{position:relative;z-index:1;min-height:100vh;}
+
+/* HEADER */
+header{background:rgba(10,14,26,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-ic{width:38px;height:38px;background:linear-gradient(135deg,var(--indigo),var(--cyan));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:var(--gi);}
+.logo-tx{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px;}
+.logo-tx span{color:var(--gold);}
+.hdr-r{display:flex;align-items:center;gap:12px;}
+.pts-badge{background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.35);border-radius:18px;padding:5px 12px;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.pts-badge span{color:var(--gold);font-size:15px;}
+.provider-pill{background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:18px;padding:4px 10px;font-size:10px;font-weight:700;color:var(--green);letter-spacing:1px;cursor:pointer;}
+.hdr-nav{display:flex;align-items:center;gap:6px;}
+.hdr-btn{height:32px;padding:0 10px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--gray);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .18s;white-space:nowrap;font-family:"Inter",sans-serif;}
+.hdr-btn:hover{background:rgba(79,70,229,0.15);border-color:var(--indigo2);color:var(--white);}
+.hdr-btn.hidden{display:none;}
+
+/* SCREENS */
+.screen{display:none;padding:24px 18px;max-width:880px;margin:0 auto;}
+.screen.active{display:block;}
+
+/* HOME */
+.hero{text-align:center;padding:32px 0 28px;}
+.eyebrow{font-size:10px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:14px;font-weight:600;}
+.hero h1{font-family:'Rajdhani',sans-serif;font-size:clamp(28px,6vw,48px);font-weight:700;line-height:1.1;margin-bottom:14px;}
+.hl-g{color:var(--gold);}.hl-i{color:var(--indigo2);}
+.hero p{font-size:14px;color:var(--gray);max-width:520px;margin:0 auto 28px;line-height:1.7;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;}
+.stat-c{background:var(--navy2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
+.stat-v{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:var(--cyan);}
+.stat-l{font-size:10px;color:var(--gray);margin-top:2px;}
+.grade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.gc{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:18px 14px;cursor:pointer;transition:all .22s;text-align:center;position:relative;overflow:hidden;}
+.gc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0;}
+.gc.sd::before{background:linear-gradient(90deg,#10B981,#06B6D4);}
+.gc.smp::before{background:linear-gradient(90deg,var(--indigo),var(--purple));}
+.gc.sma::before{background:linear-gradient(90deg,var(--gold),#F97316);}
+.gc.tka::before{background:linear-gradient(90deg,#EC4899,var(--red));}
+.gc:hover{transform:translateY(-4px);border-color:var(--indigo2);box-shadow:var(--gi);}
+.gc .gi{font-size:26px;margin-bottom:8px;}
+.gc .gn{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:3px;}
+.gc .gr{font-size:11px;color:var(--gray);margin-bottom:8px;}
+.gc .gb{display:inline-block;padding:2px 9px;border-radius:18px;font-size:9px;font-weight:700;letter-spacing:.8px;}
+.sd .gb{background:rgba(16,185,129,.12);color:#10B981;border:1px solid rgba(16,185,129,.3);}
+.smp .gb{background:rgba(79,70,229,.12);color:var(--indigo2);border:1px solid rgba(79,70,229,.3);}
+.sma .gb{background:rgba(245,158,11,.12);color:var(--gold);border:1px solid rgba(245,158,11,.3);}
+.tka .gb{background:rgba(236,72,153,.12);color:#EC4899;border:1px solid rgba(236,72,153,.3);}
+.gc.tka{grid-column:1/-1;}
+
+/* PROVIDER SETUP MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;}
+.modal{background:var(--navy2);border:1px solid var(--border);border-radius:20px;padding:24px;max-width:480px;width:100%;box-shadow:var(--gi);max-height:90vh;overflow-y:auto;}
+.modal h2{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:6px;}
+.modal .msub{font-size:12px;color:var(--gray);margin-bottom:18px;line-height:1.6;}
+.provider-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.pv-card{border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;transition:all .2s;}
+.pv-card:hover{border-color:var(--indigo2);}
+.pv-card.active{border-color:var(--indigo);background:rgba(79,70,229,.1);}
+.pv-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.pv-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.pv-name{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;}
+.pv-tag{margin-left:auto;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.5px;}
+.free-tag{background:rgba(16,185,129,.15);color:#10B981;border:1px solid rgba(16,185,129,.3);}
+.key-tag{background:rgba(245,158,11,.12);color:var(--gold);border:1px solid rgba(245,158,11,.3);}
+.pv-desc{font-size:11px;color:var(--gray);line-height:1.5;}
+.pv-key-input{width:100%;padding:9px 12px;background:var(--navy3);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:'JetBrains Mono',monospace;font-size:12px;margin-top:8px;display:none;}
+.pv-key-input.show{display:block;}
+.pv-key-input:focus{outline:none;border-color:var(--indigo);}
+.pv-link{font-size:10px;color:var(--cyan);margin-top:4px;display:none;text-decoration:none;}
+.pv-link.show{display:block;}
+.modal-btns{display:flex;gap:10px;}
+.btn-confirm{flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--indigo),var(--cyan));color:#fff;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-confirm:hover{transform:scale(1.02);}
+.btn-skip{padding:12px 18px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--gray);font-family:'Rajdhani',sans-serif;font-size:15px;cursor:pointer;}
+.btn-skip:hover{color:var(--white);}
+
+/* BACK / SCREEN TITLE */
+.back-btn{display:flex;align-items:center;gap:7px;color:var(--gray);font-size:13px;cursor:pointer;margin-bottom:18px;transition:color .18s;width:fit-content;}
+.back-btn:hover{color:var(--white);}
+.scr-title{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;margin-bottom:4px;}
+.scr-sub{font-size:12px;color:var(--gray);margin-bottom:20px;}
+.nav-pills{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;margin-bottom:18px;scrollbar-width:none;}
+.nav-pills::-webkit-scrollbar{display:none;}
+.np{padding:6px 14px;border-radius:18px;border:1px solid var(--border);background:transparent;color:var(--gray);font-size:11px;cursor:pointer;white-space:nowrap;transition:all .18s;font-family:'Inter',sans-serif;}
+.np:hover,.np.active{background:var(--indigo);border-color:var(--indigo);color:#fff;}
+.subject-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.sc{background:var(--navy2);border:1px solid var(--border);border-radius:13px;padding:16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;}
+.sc:hover{border-color:var(--indigo2);transform:translateX(3px);box-shadow:var(--gi);}
+.sc-ic{width:42px;height:42px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.sc-nm{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;}
+.sc-mt{font-size:10px;color:var(--gray);margin-top:2px;}
+.diff-dots{display:flex;gap:3px;margin-top:5px;}
+.dd{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.12);}
+.dd.on{background:var(--gold);}
+
+/* CONFIG */
+.cfg-card{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:12px;}
+.cfg-ttl{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--cyan);margin-bottom:12px;}
+.opt-row{display:flex;gap:8px;flex-wrap:wrap;}
+.ob{padding:7px 14px;border-radius:18px;border:1px solid var(--border);background:transparent;color:var(--gray);font-size:12px;cursor:pointer;transition:all .16s;font-family:'Inter',sans-serif;}
+.ob:hover,.ob.sel{background:var(--indigo);border-color:var(--indigo);color:#fff;box-shadow:var(--gi);}
+.start-btn{width:100%;padding:15px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--indigo),var(--cyan));color:#fff;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .2s;margin-top:8px;box-shadow:var(--gi);}
+.start-btn:hover{transform:scale(1.02);box-shadow:0 0 40px rgba(79,70,229,.6);}
+.start-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* QUIZ */
+.quiz-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.q-meta{font-size:11px;color:var(--gray);}
+.q-meta strong{color:var(--white);font-family:'Rajdhani',sans-serif;font-size:14px;}
+.timer{background:var(--navy3);border:1px solid var(--border);border-radius:9px;padding:7px 14px;font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;color:var(--cyan);}
+.timer.warn{color:var(--gold);border-color:rgba(245,158,11,.4);}
+.timer.danger{color:var(--red);border-color:rgba(239,68,68,.4);animation:pulse .5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.prog-wrap{margin-bottom:18px;}
+.prog-track{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--indigo),var(--cyan));border-radius:2px;transition:width .4s;}
+.prog-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--gray);margin-top:4px;}
+.q-card{background:var(--navy2);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:14px;animation:sIn .3s ease;}
+@keyframes sIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.q-type-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:7px;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px;}
+.qt-pg{background:rgba(79,70,229,.13);color:var(--indigo2);border:1px solid rgba(79,70,229,.3);}
+.qt-isian{background:rgba(6,182,212,.13);color:var(--cyan);border:1px solid rgba(6,182,212,.3);}
+.qt-esai{background:rgba(139,92,246,.13);color:var(--purple);border:1px solid rgba(139,92,246,.3);}
+.q-num{font-size:10px;color:var(--gray);margin-bottom:7px;}
+.q-txt{font-size:14px;line-height:1.78;color:var(--white);margin-bottom:18px;}
+.formula{font-family:'JetBrains Mono',monospace;background:rgba(79,70,229,.13);padding:1px 6px;border-radius:4px;color:var(--indigo2);font-size:12px;}
+.opts{display:flex;flex-direction:column;gap:8px;}
+.opt-btn{width:100%;padding:12px 16px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.02);color:var(--white);font-size:13px;text-align:left;cursor:pointer;transition:all .16s;display:flex;align-items:center;gap:10px;font-family:'Inter',sans-serif;}
+.opt-btn:hover:not(:disabled){background:rgba(79,70,229,.1);border-color:var(--indigo2);}
+.opt-lt{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:12px;flex-shrink:0;}
+.opt-btn.selected{background:rgba(79,70,229,.18);border-color:var(--indigo);}
+.opt-btn.selected .opt-lt{background:var(--indigo);}
+.opt-btn.correct{background:rgba(16,185,129,.12);border-color:#10B981;}
+.opt-btn.correct .opt-lt{background:#10B981;color:#fff;}
+.opt-btn.wrong{background:rgba(239,68,68,.1);border-color:var(--red);}
+.opt-btn.wrong .opt-lt{background:var(--red);color:#fff;}
+.opt-btn:disabled{cursor:default;}
+.isian-in{width:100%;padding:11px 14px;background:var(--navy3);border:1px solid var(--border);border-radius:9px;color:var(--white);font-family:'JetBrains Mono',monospace;font-size:14px;transition:border-color .2s;}
+.isian-in:focus{outline:none;border-color:var(--cyan);box-shadow:var(--gc);}
+.esai-in{width:100%;min-height:90px;background:var(--navy3);border:1px solid var(--border);border-radius:9px;color:var(--white);font-family:'Inter',sans-serif;font-size:13px;padding:12px 14px;resize:vertical;transition:border-color .2s;}
+.esai-in:focus{outline:none;border-color:var(--purple);box-shadow:0 0 20px rgba(139,92,246,.3);}
+.act-row{display:flex;gap:8px;margin-top:10px;}
+.btn-cek{flex:1;padding:13px;border-radius:11px;border:none;background:linear-gradient(135deg,var(--indigo),var(--purple));color:#fff;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-cek:hover{transform:scale(1.02);}
+.btn-nxt{flex:1;padding:13px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--gray);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;display:none;}
+.btn-nxt:hover{border-color:var(--indigo2);color:var(--white);}
+.btn-nxt.show{display:block;}
+.score-meter{display:flex;align-items:center;gap:7px;margin-top:10px;padding:9px 12px;background:rgba(255,255,255,.02);border-radius:9px;border:1px solid var(--border);}
+.sm-lbl{font-size:10px;color:var(--gray);white-space:nowrap;}
+.sm-bar{flex:1;height:7px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden;}
+.sm-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+.sm-val{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;white-space:nowrap;}
+
+/* EXPLANATION */
+.exp-card{background:linear-gradient(135deg,rgba(79,70,229,.07),rgba(6,182,212,.03));border:1px solid rgba(79,70,229,.28);border-radius:14px;padding:18px;margin-top:10px;display:none;animation:fadeIn .4s ease;}
+.exp-card.show{display:block;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.exp-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.exp-ic{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--indigo),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:14px;}
+.exp-ttl{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--cyan);}
+.exp-res{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:18px;font-size:11px;font-weight:600;margin-bottom:10px;}
+.exp-res.benar{background:rgba(16,185,129,.12);color:#10B981;border:1px solid rgba(16,185,129,.3);}
+.exp-res.salah{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.3);}
+.exp-body{font-size:12.5px;line-height:1.8;color:#CBD5E1;}
+.exp-body strong{color:var(--white);}
+.tip-box{background:rgba(245,158,11,.07);border-left:3px solid var(--gold);border-radius:0 7px 7px 0;padding:9px 12px;margin:10px 0;font-size:12px;color:#FDE68A;}
+.loading-exp{display:flex;align-items:center;gap:8px;color:var(--gray);font-size:12px;}
+.dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--indigo2);animation:dot 1.2s infinite;margin:0 2px;}
+.dots span:nth-child(2){animation-delay:.2s;}.dots span:nth-child(3){animation-delay:.4s;}
+@keyframes dot{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+
+/* RESULT */
+.res-wrap{text-align:center;}
+.medal{font-size:64px;display:block;margin-bottom:10px;animation:pop .6s cubic-bezier(.36,.07,.19,.97);}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.res-ttl{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;margin-bottom:6px;}
+.res-sub{color:var(--gray);font-size:13px;margin-bottom:22px;}
+.score-disp{display:inline-block;padding:20px 36px;background:linear-gradient(135deg,rgba(79,70,229,.14),rgba(6,182,212,.08));border:1px solid rgba(79,70,229,.4);border-radius:18px;margin-bottom:22px;box-shadow:var(--gi);}
+.score-big{font-family:'Rajdhani',sans-serif;font-size:58px;font-weight:700;line-height:1;}
+.score-grade{font-size:13px;color:var(--gray);margin-top:3px;}
+.res-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+.rs{background:var(--navy2);border:1px solid var(--border);border-radius:11px;padding:14px;}
+.rs-v{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;}
+.rs-l{font-size:10px;color:var(--gray);margin-top:2px;}
+.perf-chart{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:18px;}
+.pc-ttl{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:var(--cyan);margin-bottom:12px;text-align:left;}
+.bar-chart{display:flex;gap:6px;align-items:flex-end;height:70px;}
+.bc{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.bf{width:100%;border-radius:3px 3px 0 0;transition:height .8s ease;min-height:3px;}
+.bl{font-size:8px;color:var(--gray);}
+.rank-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:18px;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:.8px;margin-bottom:18px;}
+.rg{background:rgba(245,158,11,.13);color:var(--gold);border:1px solid rgba(245,158,11,.4);}
+.rs2{background:rgba(148,163,184,.13);color:#CBD5E1;border:1px solid rgba(148,163,184,.3);}
+.rb{background:rgba(180,83,9,.13);color:#D97706;border:1px solid rgba(180,83,9,.3);}
+.ri{background:rgba(79,70,229,.13);color:var(--indigo2);border:1px solid rgba(79,70,229,.3);}
+.btn-row{display:flex;gap:8px;justify-content:center;}
+.btn-replay{padding:12px 22px;border-radius:11px;border:none;background:linear-gradient(135deg,var(--indigo),var(--cyan));color:#fff;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-replay:hover{transform:scale(1.04);}
+.btn-home{padding:12px 22px;border-radius:11px;border:1px solid var(--border);background:transparent;color:var(--gray);font-family:'Rajdhani',sans-serif;font-size:14px;cursor:pointer;}
+.btn-home:hover{border-color:var(--indigo2);color:var(--white);}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy3);border:1px solid var(--border);border-radius:10px;padding:10px 18px;font-size:12px;z-index:300;opacity:0;pointer-events:none;transition:opacity .3s;white-space:nowrap;}
+.toast.show{opacity:1;}
+.toast.ok{border-color:rgba(16,185,129,.5);color:#10B981;}
+.toast.err{border-color:rgba(239,68,68,.5);color:var(--red);}
+
+/* SPINNER */
+.spin{width:20px;height:20px;border:2px solid rgba(255,255,255,.1);border-top-color:var(--indigo2);border-radius:50%;animation:sp .8s linear infinite;display:inline-block;vertical-align:middle;}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* XP */
+.xp-wrap{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--gray);}
+.xp-bar{width:60px;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--indigo),var(--cyan));border-radius:3px;transition:width .8s;}
+
+@media(max-width:600px){
+  .grade-grid{grid-template-columns:1fr 1fr;}
+  .gc.tka{grid-column:1/-1;}
+  .subject-grid{grid-template-columns:1fr;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+<canvas id="cvs"></canvas>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- PROVIDER MODAL -->
+<div class="overlay" id="pvModal">
+  <div class="modal">
+    <div style="font-size:26px;margin-bottom:8px">⚡</div>
+    <h2>Pilih AI Provider</h2>
+    <div class="msub">Semua gratis. <strong style="color:var(--green)">Groq paling mudah & cepat</strong> — daftar 1 menit, langsung dapat key.</div>
+    <div class="provider-list">
+
+      <!-- Pollinations - no key -->
+      <div class="pv-card active" id="pv-pollinations" onclick="selectProvider('pollinations')">
+        <div class="pv-head">
+          <div class="pv-icon" style="background:rgba(16,185,129,.15)">🌸</div>
+          <div class="pv-name">Pollinations.ai</div>
+          <span class="pv-tag free-tag">NO KEY · LANGSUNG PAKAI</span>
+        </div>
+        <div class="pv-desc">Tanpa daftar, tanpa key. Klik konfirmasi dan langsung mulai belajar sekarang.</div>
+      </div>
+
+      <!-- Groq - recommended -->
+      <div class="pv-card" id="pv-groq" onclick="selectProvider('groq')">
+        <div class="pv-head">
+          <div class="pv-icon" style="background:rgba(245,158,11,.15)">⚡</div>
+          <div class="pv-name">Groq <span style="font-size:10px;color:var(--gold)">(REKOMENDASI)</span></div>
+          <span class="pv-tag free-tag">FREE TIER</span>
+        </div>
+        <div class="pv-desc">Tercepat! Soal keluar &lt;3 detik. Daftar di console.groq.com → Keys → Create. Key dimulai dengan <code style="color:var(--cyan);font-size:11px">gsk_...</code></div>
+        <input class="pv-key-input" id="key-groq" placeholder="gsk_xxxxxxxxxxxxxxxxxxxx" type="password" autocomplete="off">
+        <a class="pv-link show" href="https://console.groq.com/keys" target="_blank">🔗 Daftar & Dapatkan Key Groq Gratis →</a>
+      </div>
+
+      <!-- Gemini -->
+      <div class="pv-card" id="pv-gemini" onclick="selectProvider('gemini')">
+        <div class="pv-head">
+          <div class="pv-icon" style="background:rgba(79,70,229,.15)">🔷</div>
+          <div class="pv-name">Google Gemini</div>
+          <span class="pv-tag key-tag">FREE TIER</span>
+        </div>
+        <div class="pv-desc">Kualitas premium. Daftar di aistudio.google.com → Get API key. Key tidak ada prefix khusus.</div>
+        <input class="pv-key-input" id="key-gemini" placeholder="AIzaSy..." type="password" autocomplete="off">
+        <a class="pv-link" id="link-gemini" href="https://aistudio.google.com/app/apikey" target="_blank">🔗 Dapatkan Key Gemini Gratis →</a>
+      </div>
+
+      <!-- OpenRouter -->
+      <div class="pv-card" id="pv-openrouter" onclick="selectProvider('openrouter')">
+        <div class="pv-head">
+          <div class="pv-icon" style="background:rgba(236,72,153,.15)">🌐</div>
+          <div class="pv-name">OpenRouter</div>
+          <span class="pv-tag key-tag">FREE MODELS</span>
+        </div>
+        <div class="pv-desc">10+ model gratis. Key dimulai <code style="color:var(--cyan);font-size:11px">sk-or-...</code>. Daftar di openrouter.ai/keys.</div>
+        <input class="pv-key-input" id="key-openrouter" placeholder="sk-or-xxxxxxxxxxxxxxxxxxxx" type="password" autocomplete="off">
+        <a class="pv-link" id="link-openrouter" href="https://openrouter.ai/keys" target="_blank">🔗 Dapatkan Key OpenRouter Gratis →</a>
+      </div>
+
+    </div>
+
+    <!-- Test connection status -->
+    <div id="pvStatus" style="display:none;padding:10px 14px;border-radius:9px;font-size:12px;margin-bottom:12px;"></div>
+
+    <div class="modal-btns">
+      <button class="btn-confirm" onclick="confirmProvider()">✓ Konfirmasi & Mulai</button>
+      <button class="btn-skip" onclick="usePollinationsNow()">🌸 Langsung Pakai Pollinations</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="app">
+  <header>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="hdr-btn hidden" id="btnBack" onclick="navBack()">← Kembali</button>
+      <button class="hdr-btn hidden" id="btnHome" onclick="goHome()">🏠 Home</button>
+      <div class="logo">
+        <div class="logo-ic">🏆</div>
+        <div class="logo-tx">Belajar<span>PRO</span> Elite</div>
+      </div>
+    </div>
+    <div class="hdr-r">
+      <div class="xp-wrap">
+        <span>XP</span>
+        <div class="xp-bar"><div class="xp-fill" id="xpFill" style="width:0%"></div></div>
+        <span id="xpTxt">0</span>
+      </div>
+      <div class="pts-badge">⭐ <span id="totalPts">0</span></div>
+      <div class="provider-pill" id="pvPill" onclick="document.getElementById('pvModal').style.display='flex'">GANTI AI</div>
+    </div>
+  </header>
+
+  <!-- HOME -->
+  <div class="screen active" id="homeScreen">
+    <div class="hero">
+      <div class="eyebrow">Platform Olimpiade Akademik Indonesia</div>
+      <h1>Belajar Sekelas <span class="hl-g">Olimpiade</span><br>Internasional <span class="hl-i">dari HP-mu</span></h1>
+      <p>Soal AI premium setara tryout nasional · Pembahasan mendalam interaktif · Skor real-time ala kompetisi bergengsi</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-c"><div class="stat-v">15+</div><div class="stat-l">Mapel</div></div>
+      <div class="stat-c"><div class="stat-v" style="color:var(--gold)">SD–SMA</div><div class="stat-l">Semua Jenjang</div></div>
+      <div class="stat-c"><div class="stat-v" style="color:var(--purple)">3 Tipe</div><div class="stat-l">Jenis Soal</div></div>
+      <div class="stat-c"><div class="stat-v" style="color:var(--green)">4 AI</div><div class="stat-l">Provider Gratis</div></div>
+    </div>
+    <div class="grade-grid">
+      <div class="gc sd" onclick="selectGrade('sd')">
+        <div class="gi">📚</div><div class="gn">SD</div>
+        <div class="gr">Kelas 4 · 5 · 6</div>
+        <div class="gb">DASAR</div>
+      </div>
+      <div class="gc smp" onclick="selectGrade('smp')">
+        <div class="gi">🔬</div><div class="gn">SMP</div>
+        <div class="gr">Kelas 7 · 8 · 9</div>
+        <div class="gb">MENENGAH</div>
+      </div>
+      <div class="gc sma" onclick="selectGrade('sma')">
+        <div class="gi">⚡</div><div class="gn">SMA</div>
+        <div class="gr">Kelas 10 · 11 · 12</div>
+        <div class="gb">LANJUTAN</div>
+      </div>
+      <div class="gc tka" onclick="selectGrade('tka')">
+        <div class="gi">🏅</div>
+        <div class="gn">TKA Wajib — Persiapan UTBK / SNBT</div>
+        <div class="gr">Matematika & Bahasa Indonesia · SD / SMP / SMA</div>
+        <div class="gb">🔥 PREMIUM</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBJECT -->
+  <div class="screen" id="subjectScreen">
+    <div class="back-btn" onclick="showScr('homeScreen')">← Kembali</div>
+    <div class="scr-title" id="gradeTitle">Pilih Mata Pelajaran</div>
+    <div class="scr-sub" id="gradeSub">Pilih topik latihan hari ini</div>
+    <div class="nav-pills" id="classPills"></div>
+    <div class="subject-grid" id="subjectGrid"></div>
+  </div>
+
+  <!-- CONFIG -->
+  <div class="screen" id="configScreen">
+    <div class="back-btn" onclick="showScr('subjectScreen')">← Kembali</div>
+    <div class="scr-title" id="cfgTitle">Pengaturan Latihan</div>
+    <div class="scr-sub" id="cfgSub"></div>
+    <div class="cfg-card">
+      <div class="cfg-ttl">⚙️ Jumlah Soal</div>
+      <div class="opt-row">
+        <button class="ob sel" data-g="count" data-v="5">5 Soal</button>
+        <button class="ob" data-g="count" data-v="10">10 Soal</button>
+        <button class="ob" data-g="count" data-v="20">20 Soal</button>
+        <button class="ob" data-g="count" data-v="30">30 Soal</button>
+      </div>
+    </div>
+    <div class="cfg-card">
+      <div class="cfg-ttl">🎯 Tingkat Kesulitan</div>
+      <div class="opt-row">
+        <button class="ob sel" data-g="diff" data-v="mudah">Mudah</button>
+        <button class="ob" data-g="diff" data-v="sedang">Sedang</button>
+        <button class="ob" data-g="diff" data-v="sulit">Sulit</button>
+        <button class="ob" data-g="diff" data-v="olimpiade">🏆 Olimpiade</button>
+      </div>
+    </div>
+    <div class="cfg-card">
+      <div class="cfg-ttl">📝 Tipe Soal</div>
+      <div class="opt-row">
+        <button class="ob sel" data-g="type" data-v="campur">Campur</button>
+        <button class="ob" data-g="type" data-v="pg">Pilihan Ganda</button>
+        <button class="ob" data-g="type" data-v="isian">Isian</button>
+        <button class="ob" data-g="type" data-v="esai">Esai</button>
+      </div>
+    </div>
+    <div class="cfg-card">
+      <div class="cfg-ttl">⏱️ Mode Waktu</div>
+      <div class="opt-row">
+        <button class="ob sel" data-g="time" data-v="0">Santai</button>
+        <button class="ob" data-g="time" data-v="60">60 det/soal</button>
+        <button class="ob" data-g="time" data-v="90">90 det/soal</button>
+        <button class="ob" data-g="time" data-v="120">2 mnt/soal</button>
+      </div>
+    </div>
+    <button class="start-btn" id="startBtn" onclick="startQuiz()">🚀 MULAI LATIHAN</button>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="screen" id="quizScreen">
+    <div class="quiz-hdr">
+      <div class="q-meta"><strong id="qLabel">Matematika</strong><br><span id="qMeta">Kelas 10</span></div>
+      <div class="timer" id="timerEl">∞</div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <div class="prog-lbl"><span id="progL">Soal 1</span><span id="progR">0%</span></div>
+    </div>
+    <div id="qArea"></div>
+    <div class="act-row">
+      <button class="btn-cek" id="cekBtn" onclick="submitAns()">Cek Jawaban ✓</button>
+      <button class="btn-nxt" id="nxtBtn" onclick="nextQ()">Soal Berikutnya →</button>
+    </div>
+    <div class="score-meter">
+      <span class="sm-lbl">SKOR SESI</span>
+      <div class="sm-bar"><div class="sm-fill" id="smFill" style="width:0%;background:linear-gradient(90deg,var(--indigo),var(--green))"></div></div>
+      <span class="sm-val" id="smVal">0 pts</span>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="screen" id="resultScreen">
+    <div class="res-wrap">
+      <span class="medal" id="medalEl">🥇</span>
+      <div class="res-ttl" id="resTtl">Luar Biasa!</div>
+      <div class="res-sub" id="resSub">Kamu siap di olimpiade!</div>
+      <div class="rank-badge rg" id="rankEl">🏆 PERINGKAT EMAS</div>
+      <div class="score-disp">
+        <div class="score-big" id="scoreBig">0</div>
+        <div class="score-grade" id="scoreGrade">Nilai A+</div>
+      </div>
+      <div class="res-stats">
+        <div class="rs"><div class="rs-v" id="rC" style="color:var(--green)">-</div><div class="rs-l">Benar</div></div>
+        <div class="rs"><div class="rs-v" id="rW" style="color:var(--red)">-</div><div class="rs-l">Salah</div></div>
+        <div class="rs"><div class="rs-v" id="rT" style="color:var(--cyan)">-</div><div class="rs-l">Waktu</div></div>
+      </div>
+      <div class="perf-chart">
+        <div class="pc-ttl">📊 Distribusi Skor per Soal</div>
+        <div class="bar-chart" id="barChart"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-replay" onclick="replayQuiz()">🔄 Ulangi</button>
+        <button class="btn-home" onclick="goHome()">🏠 Menu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// PARTICLES
+// ══════════════════════════════════════════
+(()=>{
+  const c=document.getElementById('cvs'),x=c.getContext('2d');
+  let W,H,pts=[];
+  const resize=()=>{W=c.width=innerWidth;H=c.height=innerHeight;};
+  resize();addEventListener('resize',resize);
+  for(let i=0;i<55;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.4+.4,a:Math.random()*.4+.1});
+  const frame=()=>{
+    x.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x=(p.x+p.vx+W)%W;p.y=(p.y+p.vy+H)%H;
+      x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);
+      x.fillStyle=`rgba(99,102,241,${p.a})`;x.fill();
+    });
+    requestAnimationFrame(frame);
+  };frame();
+})();
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+const S={
+  provider:'groq',apiKey:'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',
+  grade:'',gradeClass:'',subject:'',subjectLabel:'',
+  count:5,diff:'mudah',type:'campur',time:0,
+  questions:[],current:0,answers:[],scores:[],
+  sessionScore:0,
+  totalPts:+localStorage.getItem('bp_pts')||0,
+  xp:+localStorage.getItem('bp_xp')||0,
+  timerInt:null,timeLeft:0,startTime:null,
+  selOpt:null
+};
+
+// ══════════════════════════════════════════
+// PROVIDER UI
+// ══════════════════════════════════════════
+const PROVIDERS={
+  pollinations:{name:'Pollinations',icon:'🌸',noKey:true},
+  gemini:{name:'Gemini',icon:'🔷',noKey:false},
+  groq:{name:'Groq',icon:'⚡',noKey:false},
+  openrouter:{name:'OpenRouter',icon:'🌐',noKey:false}
+};
+
+function selectProvider(p){
+  S.provider=p;
+  document.querySelectorAll('.pv-card').forEach(c=>c.classList.remove('active'));
+  document.getElementById('pv-'+p)?.classList.add('active');
+  // show/hide key inputs for all providers
+  ['gemini','groq','openrouter'].forEach(id=>{
+    const ki=document.getElementById('key-'+id);
+    const li=document.getElementById('link-'+id);
+    const active=id===p&&!PROVIDERS[p].noKey;
+    if(ki)ki.classList.toggle('show',active);
+    if(li&&li.id==='link-'+id) li.style.display=active?'block':'none';
+  });
+  document.getElementById('pvStatus').style.display='none';
+}
+
+function usePollinationsNow(){
+  S.provider='pollinations';
+  S.apiKey='';
+  document.getElementById('pvModal').style.display='none';
+  document.getElementById('pvPill').textContent='🌸 Pollinations';
+  toast('Pollinations aktif — langsung bisa mulai! ✓','ok');
+  updateHdr();
+}
+
+async function confirmProvider(){
+  const pv=PROVIDERS[S.provider];
+  const statusEl=document.getElementById('pvStatus');
+  if(!pv.noKey){
+    const k=document.getElementById('key-'+S.provider)?.value.trim();
+    if(!k){
+      toast('Masukkan API key untuk '+pv.name,'err');
+      return;
+    }
+    // Basic format validation
+    if(S.provider==='groq'&&!k.startsWith('gsk_')){
+      statusEl.style.display='block';
+      statusEl.style.background='rgba(239,68,68,0.1)';
+      statusEl.style.border='1px solid rgba(239,68,68,0.3)';
+      statusEl.style.color='#EF4444';
+      statusEl.innerHTML='❌ Key Groq harus dimulai dengan <code>gsk_</code> — pastikan copy dari console.groq.com/keys';
+      return;
+    }
+    if(S.provider==='openrouter'&&!k.startsWith('sk-or-')){
+      statusEl.style.display='block';
+      statusEl.style.background='rgba(239,68,68,0.1)';
+      statusEl.style.border='1px solid rgba(239,68,68,0.3)';
+      statusEl.style.color='#EF4444';
+      statusEl.innerHTML='❌ Key OpenRouter harus dimulai dengan <code>sk-or-</code>';
+      return;
+    }
+    if(S.provider==='gemini'&&k.length<20){
+      statusEl.style.display='block';
+      statusEl.style.background='rgba(239,68,68,0.1)';
+      statusEl.style.border='1px solid rgba(239,68,68,0.3)';
+      statusEl.style.color='#EF4444';
+      statusEl.innerHTML='❌ Key Gemini terlalu pendek. Pastikan copy seluruh key dari aistudio.google.com';
+      return;
+    }
+    S.apiKey=k;
+    localStorage.setItem('bp_key_'+S.provider,k);
+  }
+  localStorage.setItem('bp_last_provider',S.provider);
+  document.getElementById('pvModal').style.display='none';
+  document.getElementById('pvPill').textContent=pv.icon+' '+pv.name;
+  toast('Provider '+pv.name+' aktif ✓','ok');
+  updateHdr();
+}
+
+// init: default Groq embedded, skip modal
+(()=>{
+  // Restore user-saved provider/key if they changed it manually
+  const lastPv=localStorage.getItem('bp_last_provider');
+  if(lastPv&&lastPv!=='groq'){
+    S.provider=lastPv;
+    const savedKey=localStorage.getItem('bp_key_'+lastPv);
+    if(savedKey)S.apiKey=savedKey;
+  }
+  // Always restore any saved keys into inputs
+  ['gemini','groq','openrouter'].forEach(p=>{
+    const k=localStorage.getItem('bp_key_'+p);
+    if(k){const el=document.getElementById('key-'+p);if(el)el.value=k;}
+  });
+  // update pill label
+  const pv=PROVIDERS[S.provider]||PROVIDERS.groq;
+  document.getElementById('pvPill').textContent=pv.icon+' '+pv.name;
+  // Skip modal — embedded key ready
+  document.getElementById('pvModal').style.display='none';
+  updateHdr();
+  // Show welcome toast
+  setTimeout(()=>toast('⚡ Groq AI siap — Selamat Belajar!','ok'),600);
+})();
+
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+// Screen history for back navigation
+const scrHistory=[];
+
+function showScr(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  scrollTo(0,0);
+  updateNavBtns(id);
+}
+
+function updateNavBtns(id){
+  const isHome=id==='homeScreen';
+  const backBtn=document.getElementById('btnBack');
+  const homeBtn=document.getElementById('btnHome');
+  if(backBtn) backBtn.classList.toggle('hidden', isHome);
+  if(homeBtn) homeBtn.classList.toggle('hidden', isHome);
+  // label back button contextually
+  if(backBtn){
+    if(id==='subjectScreen') backBtn.textContent='← Kembali';
+    else if(id==='configScreen') backBtn.textContent='← Pilih Mapel';
+    else if(id==='quizScreen') backBtn.style.display='none'; // hide during quiz
+    else if(id==='resultScreen') backBtn.classList.add('hidden');
+    else backBtn.textContent='← Kembali';
+  }
+}
+
+function navBack(){
+  const cur=document.querySelector('.screen.active')?.id;
+  if(cur==='subjectScreen') showScr('homeScreen');
+  else if(cur==='configScreen') showScr('subjectScreen');
+  else showScr('homeScreen');
+}
+
+function goHome(){clearTimer();scrHistory.length=0;showScr('homeScreen');}
+function toast(msg,type='ok'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className=`toast show ${type}`;
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+function updateHdr(){
+  document.getElementById('totalPts').textContent=S.totalPts.toLocaleString()+' pts';
+  const pct=Math.min((S.xp%1000)/10,100);
+  document.getElementById('xpFill').style.width=pct+'%';
+  document.getElementById('xpTxt').textContent=S.xp;
+  localStorage.setItem('bp_pts',S.totalPts);
+  localStorage.setItem('bp_xp',S.xp);
+}
+
+// ══════════════════════════════════════════
+// GRADE DATA
+// ══════════════════════════════════════════
+const GRADES={
+  sd:{label:'Sekolah Dasar',classes:['Kelas 4','Kelas 5','Kelas 6'],subjects:[
+    {id:'mat',name:'Matematika',icon:'🔢',color:'#6366F1',bg:'rgba(99,102,241,.14)',diff:2,tags:'Aritmatika, Pecahan, Geometri, Statistika Dasar'},
+    {id:'ipa',name:'IPA',icon:'🔬',color:'#10B981',bg:'rgba(16,185,129,.14)',diff:1,tags:'Tumbuhan, Hewan, Listrik, Sumber Daya Alam'},
+    {id:'ips',name:'IPS',icon:'🌏',color:'#F59E0B',bg:'rgba(245,158,11,.14)',diff:1,tags:'Sejarah, Geografi, Ekonomi, Sosial Budaya'},
+    {id:'bindo',name:'Bahasa Indonesia',icon:'📖',color:'#EC4899',bg:'rgba(236,72,153,.14)',diff:2,tags:'Teks Narasi, EYD, Kosakata, Sastra Anak'},
+    {id:'bing',name:'Bahasa Inggris',icon:'🇬🇧',color:'#06B6D4',bg:'rgba(6,182,212,.14)',diff:1,tags:'Vocabulary, Simple Grammar, Reading'},
+    {id:'pkn',name:'PKn / PPKN',icon:'🏛️',color:'#8B5CF6',bg:'rgba(139,92,246,.14)',diff:1,tags:'Pancasila, UUD 1945, Kewarganegaraan'},
+  ]},
+  smp:{label:'SMP',classes:['Kelas 7','Kelas 8','Kelas 9'],subjects:[
+    {id:'mat',name:'Matematika',icon:'📐',color:'#6366F1',bg:'rgba(99,102,241,.14)',diff:3,tags:'Aljabar, SPLDV, Pythagoras, Statistika'},
+    {id:'ipa_fis',name:'IPA Fisika',icon:'⚡',color:'#06B6D4',bg:'rgba(6,182,212,.14)',diff:3,tags:'Gerak, Gaya, Energi, Gelombang, Cahaya'},
+    {id:'ipa_bio',name:'IPA Biologi',icon:'🧬',color:'#10B981',bg:'rgba(16,185,129,.14)',diff:3,tags:'Sel, Jaringan, Ekosistem, Genetika Dasar'},
+    {id:'ipa_kim',name:'IPA Kimia',icon:'⚗️',color:'#F97316',bg:'rgba(249,115,22,.14)',diff:3,tags:'Unsur, Senyawa, Larutan, Reaksi Kimia'},
+    {id:'ips',name:'IPS Terpadu',icon:'🗺️',color:'#F59E0B',bg:'rgba(245,158,11,.14)',diff:2,tags:'Sejarah, Geografi, Sosiologi, Ekonomi'},
+    {id:'bindo',name:'Bahasa Indonesia',icon:'📝',color:'#EC4899',bg:'rgba(236,72,153,.14)',diff:3,tags:'Teks Eksposisi, Puisi, Cerpen, Kebahasaan'},
+    {id:'bing',name:'Bahasa Inggris',icon:'🌐',color:'#06B6D4',bg:'rgba(6,182,212,.14)',diff:2,tags:'Grammar, Reading Comprehension, Writing'},
+    {id:'mat_olimp',name:'Matematika Olimpiade',icon:'🏅',color:'#F97316',bg:'rgba(249,115,22,.14)',diff:5,tags:'Teori Bilangan, Kombinatorika, Geometri Olimpiade'},
+  ]},
+  sma:{label:'SMA',classes:['Kelas 10','Kelas 11','Kelas 12'],subjects:[
+    {id:'mat',name:'Matematika Wajib',icon:'∑',color:'#6366F1',bg:'rgba(99,102,241,.14)',diff:4,tags:'Limit, Turunan, Integral, Matriks, Vektor'},
+    {id:'mat_p',name:'Matematika Peminatan',icon:'🔣',color:'#8B5CF6',bg:'rgba(139,92,246,.14)',diff:5,tags:'Polinomial, Trigonometri, Transformasi, Irisan Kerucut'},
+    {id:'fisika',name:'Fisika',icon:'⚡',color:'#06B6D4',bg:'rgba(6,182,212,.14)',diff:4,tags:'Mekanika, Termodinamika, Gelombang, Listrik, Optik'},
+    {id:'kimia',name:'Kimia',icon:'🧪',color:'#10B981',bg:'rgba(16,185,129,.14)',diff:4,tags:'Mol, Reaksi, Kesetimbangan, Elektrokimia, Polimer'},
+    {id:'biologi',name:'Biologi',icon:'🧬',color:'#F59E0B',bg:'rgba(245,158,11,.14)',diff:3,tags:'Sel, Genetika, Metabolisme, Ekosistem, Evolusi'},
+    {id:'bindo',name:'Bahasa Indonesia',icon:'📜',color:'#EC4899',bg:'rgba(236,72,153,.14)',diff:3,tags:'Teks Argumentasi, Debat, Sastra, Kebahasaan'},
+    {id:'ekonomi',name:'Ekonomi',icon:'💹',color:'#F97316',bg:'rgba(249,115,22,.14)',diff:3,tags:'Makroekonomi, Akuntansi, Bank, Kebijakan Fiskal'},
+    {id:'sejarah',name:'Sejarah Indonesia',icon:'🏛️',color:'#A78BFA',bg:'rgba(167,139,250,.14)',diff:2,tags:'Pra-kolonial, Kolonial, Kemerdekaan, Orde Baru'},
+    {id:'geografi',name:'Geografi',icon:'🌋',color:'#06B6D4',bg:'rgba(6,182,212,.14)',diff:3,tags:'Litosfer, Hidrosfer, Atmosfer, SIG, Kependudukan'},
+    {id:'sosio',name:'Sosiologi',icon:'👥',color:'#A78BFA',bg:'rgba(167,139,250,.14)',diff:2,tags:'Interaksi Sosial, Stratifikasi, Deviansi, Modernisasi'},
+  ]},
+  tka:{label:'TKA Wajib — UTBK/SNBT',classes:['Level SD','Level SMP','Level SMA / UTBK'],subjects:[
+    {id:'tka_mat_sd',name:'TKA Matematika Dasar (SD)',icon:'🔢',color:'#6366F1',bg:'rgba(99,102,241,.14)',diff:3,tags:'Pola, Logika, Aritmatika, Soal Cerita, Pecahan'},
+    {id:'tka_bindo_sd',name:'TKA B. Indonesia (SD)',icon:'📖',color:'#EC4899',bg:'rgba(236,72,153,.14)',diff:3,tags:'Pemahaman Bacaan, EYD, Sinonim, Antonim'},
+    {id:'tka_mat_smp',name:'TKA Matematika (SMP)',icon:'📐',color:'#8B5CF6',bg:'rgba(139,92,246,.14)',diff:4,tags:'Aljabar, Geometri, Peluang, Statistik, Himpunan'},
+    {id:'tka_bindo_smp',name:'TKA B. Indonesia (SMP)',icon:'📝',color:'#F97316',bg:'rgba(249,115,22,.14)',diff:4,tags:'Teks Kompleks, Sastra, Kebahasaan, Ejaan Baku'},
+    {id:'tka_mat_sma',name:'TKA Mat. Dasar (SMA/UTBK)',icon:'∑',color:'#06B6D4',bg:'rgba(6,182,212,.14)',diff:5,tags:'UTBK Level — Turunan, Integral, Statistik, Matriks'},
+    {id:'tka_bindo_sma',name:'TKA Literasi B. Indonesia',icon:'📜',color:'#10B981',bg:'rgba(16,185,129,.14)',diff:5,tags:'UTBK Level — Literasi Teks, Argumentasi, Sastra'},
+  ]}
+};
+
+// ══════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════
+function selectGrade(g){
+  S.grade=g;
+  const gd=GRADES[g];
+  document.getElementById('gradeTitle').textContent=gd.label;
+  document.getElementById('gradeSub').textContent='Pilih mata pelajaran · Kelas bisa dipilih di atas';
+  // pills
+  const pc=document.getElementById('classPills');pc.innerHTML='';
+  gd.classes.forEach((cl,i)=>{
+    const p=document.createElement('button');
+    p.className='np'+(i===0?' active':'');p.textContent=cl;
+    p.onclick=()=>{document.querySelectorAll('.np').forEach(x=>x.classList.remove('active'));p.classList.add('active');S.gradeClass=cl;};
+    pc.appendChild(p);
+  });
+  S.gradeClass=gd.classes[0];
+  // subjects
+  const sg=document.getElementById('subjectGrid');sg.innerHTML='';
+  gd.subjects.forEach(sub=>{
+    const d=document.createElement('div');d.className='sc';
+    const dots=Array.from({length:5},(_,i)=>`<div class="dd${i<sub.diff?' on':''}"></div>`).join('');
+    d.innerHTML=`<div class="sc-ic" style="background:${sub.bg};color:${sub.color}">${sub.icon}</div>
+      <div><div class="sc-nm">${sub.name}</div><div class="sc-mt">${sub.tags}</div><div class="diff-dots">${dots}</div></div>`;
+    d.onclick=()=>selectSubject(sub);
+    sg.appendChild(d);
+  });
+  showScr('subjectScreen');
+}
+
+function selectSubject(sub){
+  S.subject=sub.id;S.subjectLabel=sub.name;
+  document.getElementById('cfgTitle').textContent=sub.name;
+  document.getElementById('cfgSub').textContent=S.gradeClass+' · '+S.grade.toUpperCase();
+  showScr('configScreen');
+}
+
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.ob');if(!b)return;
+  const g=b.dataset.g,v=b.dataset.v;
+  document.querySelectorAll(`[data-g="${g}"]`).forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel');
+  if(g==='count')S.count=+v;
+  if(g==='diff')S.diff=v;
+  if(g==='type')S.type=v;
+  if(g==='time')S.time=+v;
+});
+
+// ══════════════════════════════════════════
+// AI CALL
+// ══════════════════════════════════════════
+const PROMPT=(n,mapel,kelas,diff,type)=>{
+  const typeMap={pg:'pilihan ganda (4 opsi A/B/C/D)',isian:'isian singkat (jawaban 1-3 kata/angka)',esai:'esai pendek (jawaban 2-4 kalimat)',campur:'campuran pilihan ganda, isian singkat, dan esai (variasikan)'};
+  const diffMap={mudah:'mudah — untuk pemula',sedang:'sedang — butuh pemahaman konsep',sulit:'sulit — butuh analisis mendalam',olimpiade:'sangat sulit — setara olimpiade nasional/internasional'};
+  return `Kamu adalah guru ahli pembuat soal ujian premium Indonesia. Buat ${n} soal ${typeMap[type]} untuk mata pelajaran ${mapel}, ${kelas}, tingkat kesulitan ${diffMap[diff]}.
+
+Instruksi penting:
+- Soal harus berkualitas tinggi, mendidik, kontekstual
+- Untuk Matematika: wajib ada soal cerita dan soal logika
+- Gunakan bahasa Indonesia baku yang baik dan benar
+- Pembahasan harus jelas, langkah demi langkah jika perlu
+- HANYA jawab dengan JSON array valid, tanpa teks tambahan, tanpa markdown backtick
+
+Format JSON:
+[{"id":1,"type":"pg","question":"...","options":["A. ...","B. ...","C. ...","D. ..."],"answer":"A","explanation":"Pembahasan lengkap 3-5 kalimat dengan langkah jelas","tip":"Tips/trik cepat","points":10,"tags":["topik"]},{"id":2,"type":"isian","question":"...","options":null,"answer":"jawaban","explanation":"...","tip":"...","points":15,"tags":["topik"]},{"id":3,"type":"esai","question":"...","options":null,"answer":"Jawaban kunci esai lengkap","explanation":"...","tip":"...","points":25,"tags":["topik"]}]
+
+Catatan: type bisa "pg","isian","esai". Untuk pg points=10, isian=15, esai=25.`;
+};
+
+async function callAI(prompt){
+  if(S.provider==='pollinations'){
+    const res=await fetch('https://text.pollinations.ai/',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:[{role:'system',content:'Kamu adalah guru ahli pembuat soal ujian premium Indonesia. Selalu balas dengan JSON valid saja, tanpa markdown, tanpa teks lain.'},{role:'user',content:prompt}],model:'mistral-large',jsonMode:true,seed:Math.floor(Math.random()*9999)})
+    });
+    const txt=await res.text();
+    return txt;
+  }
+  if(S.provider==='gemini'){
+    // Try gemini-2.0-flash first, fallback to gemini-1.5-flash
+    const models=['gemini-2.0-flash','gemini-1.5-flash','gemini-1.5-flash-latest'];
+    let lastErr='';
+    for(const model of models){
+      try{
+        const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${S.apiKey}`,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({
+            contents:[{role:'user',parts:[{text:'INSTRUKSI SISTEM: Kamu adalah guru ahli pembuat soal ujian premium Indonesia. Balas HANYA dengan JSON array valid, tanpa teks lain, tanpa markdown.\n\n'+prompt}]}],
+            generationConfig:{temperature:0.7,maxOutputTokens:4096,candidateCount:1}
+          })
+        });
+        const d=await res.json();
+        if(d.error){
+          lastErr=d.error.message||'Gemini error';
+          if(lastErr.includes('API_KEY_INVALID')||lastErr.includes('API key not valid')){
+            throw new Error('KEY_INVALID');
+          }
+          continue; // try next model
+        }
+        if(!d.candidates||!d.candidates[0]){lastErr='No candidates';continue;}
+        const txt=d.candidates[0].content?.parts?.[0]?.text;
+        if(!txt){lastErr='Empty response';continue;}
+        return txt;
+      }catch(e){
+        if(e.message==='KEY_INVALID') throw new Error('❌ API Key Gemini tidak valid!\n\nPastikan:\n1. Key sudah di-copy dengan benar\n2. Buka aistudio.google.com → API Keys\n3. Klik "Create API key" → pilih project');
+        lastErr=e.message;
+      }
+    }
+    throw new Error('Gemini gagal: '+lastErr);
+  }
+  if(S.provider==='groq'){
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+S.apiKey},
+      body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:'Kamu adalah guru ahli pembuat soal. Balas HANYA dengan JSON array valid.'},{role:'user',content:prompt}],max_tokens:4000,temperature:0.7})
+    });
+    const d=await res.json();
+    if(d.error)throw new Error(d.error.message||d.error);
+    return d.choices[0].message.content;
+  }
+  if(S.provider==='openrouter'){
+    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+S.apiKey,'HTTP-Referer':'https://belajarpro.app','X-Title':'BelajarPRO Elite'},
+      body:JSON.stringify({model:'mistralai/mistral-7b-instruct:free',messages:[{role:'system',content:'Kamu adalah guru ahli. Balas HANYA dengan JSON array valid, tanpa teks lain.'},{role:'user',content:prompt}],max_tokens:4000})
+    });
+    const d=await res.json();
+    if(d.error)throw new Error(d.error.message||JSON.stringify(d.error));
+    return d.choices[0].message.content;
+  }
+}
+
+async function generateQuestions(){
+  const p=PROMPT(S.count,S.subjectLabel,S.gradeClass,S.diff,S.type);
+  try{
+    let txt=await callAI(p);
+    txt=txt.replace(/```json|```/g,'').trim();
+    // find first [ to last ]
+    const start=txt.indexOf('['),end=txt.lastIndexOf(']');
+    if(start>-1&&end>-1)txt=txt.slice(start,end+1);
+    return JSON.parse(txt);
+  }catch(err){
+    console.error(err);
+    toast('Gagal parse soal AI, coba lagi atau ganti provider','err');
+    return getFallback();
+  }
+}
+
+function getFallback(){
+  return[
+    {id:1,type:'pg',question:'Sebuah persegi panjang panjang 14 cm dan lebar 9 cm. Berapakah kelilingnya?',options:['A. 23 cm','B. 46 cm','C. 126 cm','D. 92 cm'],answer:'B',explanation:'Keliling persegi panjang = 2 × (p + l) = 2 × (14 + 9) = 2 × 23 = 46 cm.',tip:'Keliling = 2(p+l), bukan p×l. Jangan tertukar dengan rumus luas!',points:10,tags:['geometri']},
+    {id:2,type:'isian',question:'Jika 3x − 7 = 14, maka nilai x adalah ...',options:null,answer:'7',explanation:'3x = 14 + 7 = 21. Maka x = 21 ÷ 3 = 7.',tip:'Pindahkan konstanta ke ruas kanan, baru bagi dengan koefisien x.',points:15,tags:['aljabar']},
+    {id:3,type:'esai',question:'Jelaskan apa yang dimaksud dengan fotosintesis dan sebutkan bahan-bahan yang dibutuhkan!',options:null,answer:'Fotosintesis adalah proses pembuatan makanan pada tumbuhan menggunakan energi cahaya matahari. Bahan yang dibutuhkan: CO₂ (karbondioksida) dari udara, H₂O (air) dari tanah, dan cahaya matahari. Hasilnya adalah glukosa dan oksigen.',tip:'Ingat rumus: CO₂ + H₂O + cahaya → glukosa + O₂ (berlangsung di kloroplas).',points:25,tags:['biologi']},
+    {id:4,type:'pg',question:'Manakah penulisan yang benar sesuai EYD?',options:['A. Di karenakan','B. Dikarenakan','C. di karenakan','D. Dikarena kan'],answer:'B',explanation:'"Dikarenakan" ditulis serangkai karena merupakan kata kerja pasif yang dibentuk dari prefiks di- + karenakan.',tip:'Awalan di- (pasif) selalu menyatu dengan kata dasarnya. Berbeda dengan di (preposisi tempat) yang dipisah.',points:10,tags:['bahasa indonesia','ejaan']},
+    {id:5,type:'pg',question:'Nilai dari (2³ + 4²) × √25 = ...',options:['A. 120','B. 110','C. 100','D. 90'],answer:'A',explanation:'2³=8, 4²=16, jadi 8+16=24. √25=5. Hasil: 24×5=120.',tip:'Kerjakan pangkat dan akar dulu (PEMDAS), baru penjumlahan, lalu perkalian.',points:10,tags:['bilangan']},
+  ].slice(0,S.count);
+}
+
+// ══════════════════════════════════════════
+// QUIZ FLOW
+// ══════════════════════════════════════════
+async function startQuiz(){
+  const btn=document.getElementById('startBtn');
+  btn.disabled=true;
+  btn.innerHTML=`<span class="spin"></span> Membuat soal premium dengan ${PROVIDERS[S.provider].name}...`;
+  S.questions=await generateQuestions();
+  S.current=0;S.answers=[];S.scores=[];S.sessionScore=0;S.startTime=Date.now();
+  btn.disabled=false;btn.innerHTML='🚀 MULAI LATIHAN';
+  document.getElementById('qLabel').textContent=S.subjectLabel;
+  document.getElementById('qMeta').textContent=S.gradeClass+' · '+S.grade.toUpperCase()+' · '+S.diff;
+  showScr('quizScreen');
+  renderQ();
+}
+
+function renderQ(){
+  const q=S.questions[S.current],tot=S.questions.length;
+  const pct=Math.round((S.current/tot)*100);
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progL').textContent=`Soal ${S.current+1} dari ${tot}`;
+  document.getElementById('progR').textContent=pct+'% selesai';
+  clearTimer();
+  if(S.time>0){
+    S.timeLeft=S.time;updateTimerEl();
+    S.timerInt=setInterval(()=>{S.timeLeft--;updateTimerEl();if(S.timeLeft<=0){clearTimer();autoSub();}},1000);
+  }else{
+    document.getElementById('timerEl').textContent='∞';
+    document.getElementById('timerEl').className='timer';
+  }
+  S.selOpt=null;
+  document.getElementById('cekBtn').style.display='';
+  document.getElementById('nxtBtn').classList.remove('show');
+  document.getElementById('qArea').innerHTML=buildQHTML(q);
+}
+
+function buildQHTML(q){
+  const tl={pg:'Pilihan Ganda',isian:'Isian Singkat',esai:'Esai'};
+  const tc={pg:'qt-pg',isian:'qt-isian',esai:'qt-esai'};
+  let h=`<div class="q-card">
+    <div class="q-type-badge ${tc[q.type]}">${q.type==='pg'?'◉':q.type==='isian'?'✏️':'📝'} ${tl[q.type]}</div>
+    <div class="q-num">Soal ${S.current+1} · ${q.points} poin</div>
+    <div class="q-txt">${q.question}</div>`;
+  if(q.type==='pg'){
+    h+=`<div class="opts">`;
+    (q.options||[]).forEach((op,i)=>{
+      const L=String.fromCharCode(65+i);
+      const txt=op.match(/^[A-D]\.\s*/)?op.replace(/^[A-D]\.\s*/,''):op;
+      h+=`<button class="opt-btn" id="opt${L}" onclick="pickOpt('${L}')"><div class="opt-lt">${L}</div><span>${txt}</span></button>`;
+    });
+    h+=`</div>`;
+  }else if(q.type==='isian'){
+    h+=`<input class="isian-in" id="isIn" placeholder="Tulis jawabanmu..." autocomplete="off">`;
+  }else{
+    h+=`<textarea class="esai-in" id="esIn" placeholder="Tulis jawabanmu secara lengkap dan terstruktur..."></textarea>`;
+  }
+  h+=`<div class="exp-card" id="expCard"></div></div>`;
+  return h;
+}
+
+function pickOpt(L){
+  if(S.selOpt)return;
+  S.selOpt=L;
+  document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('opt'+L)?.classList.add('selected');
+}
+
+function updateTimerEl(){
+  const el=document.getElementById('timerEl');
+  const m=Math.floor(S.timeLeft/60),s=S.timeLeft%60;
+  el.textContent=(m>0?m+':':'')+(m>0&&s<10?'0':'')+s+(m===0?'s':'');
+  el.className='timer'+(S.timeLeft<=10?' danger':S.timeLeft<=25?' warn':'');
+}
+function clearTimer(){clearInterval(S.timerInt);}
+function autoSub(){toast('Waktu habis! ⏰','err');submitAns();}
+
+function submitAns(){
+  const q=S.questions[S.current];
+  let ans='',correct=false,pts=0;
+  clearTimer();
+  if(q.type==='pg'){
+    ans=S.selOpt||'';
+    correct=ans===q.answer;pts=correct?q.points:0;
+    document.querySelectorAll('.opt-btn').forEach((b,i)=>{
+      b.disabled=true;
+      const L=String.fromCharCode(65+i);
+      if(L===q.answer)b.classList.add('correct');
+      else if(L===ans&&!correct)b.classList.add('wrong');
+    });
+    S.selOpt=null;
+  }else if(q.type==='isian'){
+    const el=document.getElementById('isIn');
+    ans=el?el.value.trim():'';
+    // toleran: lowercase & trim
+    correct=ans.toLowerCase().replace(/\s+/g,'')===q.answer.toLowerCase().replace(/\s+/g,'');
+    pts=correct?q.points:0;
+    if(el){el.disabled=true;el.style.borderColor=correct?'#10B981':'#EF4444';}
+  }else{
+    const el=document.getElementById('esIn');
+    ans=el?el.value.trim():'';
+    correct=ans.length>15;
+    pts=correct?q.points:ans.length>5?Math.round(q.points*.4):0;
+    if(el)el.disabled=true;
+  }
+  S.answers.push(ans);S.scores.push({correct,pts,max:q.points});
+  S.sessionScore+=pts;
+  const maxSoFar=S.questions.slice(0,S.current+1).reduce((a,x)=>a+x.points,0);
+  const mPct=maxSoFar?Math.round(S.sessionScore/maxSoFar*100):0;
+  document.getElementById('smFill').style.width=mPct+'%';
+  document.getElementById('smVal').textContent=S.sessionScore+' pts';
+  document.getElementById('smFill').style.background=mPct>=80?'linear-gradient(90deg,#10B981,#06B6D4)':mPct>=50?'linear-gradient(90deg,var(--indigo),var(--gold))':'linear-gradient(90deg,var(--red),var(--gold))';
+  showExp(q,correct,pts);
+  document.getElementById('cekBtn').style.display='none';
+  document.getElementById('nxtBtn').classList.add('show');
+  document.getElementById('nxtBtn').textContent=S.current<S.questions.length-1?'Soal Berikutnya →':'Lihat Hasil →';
+}
+
+function showExp(q,correct,pts){
+  const card=document.getElementById('expCard');
+  card.innerHTML=`<div class="loading-exp"><span class="spin"></span> Menyusun pembahasan... <span class="dots"><span></span><span></span><span></span></span></div>`;
+  card.classList.add('show');
+  setTimeout(()=>{
+    const kunci=q.type!=='pg'&&!correct?`<div style="font-size:11px;color:var(--gray);margin-bottom:8px">Jawaban kunci: <strong style="color:var(--cyan)">${q.answer}</strong></div>`:'';
+    card.innerHTML=`
+      <div class="exp-hdr"><div class="exp-ic">${correct?'✅':'💡'}</div><div class="exp-ttl">Pembahasan Resmi</div></div>
+      <div class="exp-res ${correct?'benar':'salah'}">${correct?'✓ BENAR +'+pts+' poin':'✗ SALAH · +'+pts+' poin'}</div>
+      ${kunci}
+      <div class="exp-body">${q.explanation}<div class="tip-box">💡 <strong>Tips:</strong> ${q.tip}</div></div>`;
+  },900);
+}
+
+function nextQ(){
+  if(S.current<S.questions.length-1){S.current++;renderQ();}
+  else showResult();
+}
+
+// ══════════════════════════════════════════
+// RESULT
+// ══════════════════════════════════════════
+function showResult(){
+  clearTimer();
+  const elapsed=Math.round((Date.now()-S.startTime)/1000);
+  const correct=S.scores.filter(s=>s.correct).length;
+  const wrong=S.scores.filter(s=>!s.correct).length;
+  const maxPts=S.questions.reduce((a,q)=>a+q.points,0);
+  const pct=Math.round(S.sessionScore/maxPts*100);
+  let medal='🥉',rank='PERUNGGU',rcls='rb',ttl='Terus Berlatih!',sub='Kamu bisa lebih baik di sesi berikutnya.';
+  if(pct>=90){medal='🥇';rank='EMAS';rcls='rg';ttl='Luar Biasa!';sub='Kamu siap mewakili sekolah di olimpiade!';}
+  else if(pct>=75){medal='🥈';rank='PERAK';rcls='rs2';ttl='Kerja Bagus!';sub='Sedikit lagi untuk mencapai level emas!';}
+  else if(pct>=60){medal='🏅';rank='KOMPETEN';rcls='ri';ttl='Cukup Baik!';sub='Terus tingkatkan pemahamanmu.';}
+  let gr='D';
+  if(pct>=90)gr='A+';else if(pct>=80)gr='A';else if(pct>=70)gr='B';else if(pct>=60)gr='C';
+  document.getElementById('medalEl').textContent=medal;
+  document.getElementById('resTtl').textContent=ttl;
+  document.getElementById('resSub').textContent=sub;
+  document.getElementById('rankEl').className='rank-badge '+rcls;
+  document.getElementById('rankEl').textContent='🏆 PERINGKAT '+rank;
+  document.getElementById('scoreBig').textContent=pct;
+  document.getElementById('scoreGrade').textContent='Nilai '+gr+' · '+(pct>=90?'Sangat Memuaskan':pct>=75?'Memuaskan':pct>=60?'Cukup':'Perlu Remedial');
+  document.getElementById('rC').textContent=correct;
+  document.getElementById('rW').textContent=wrong;
+  const m=Math.floor(elapsed/60),se=elapsed%60;
+  document.getElementById('rT').textContent=(m>0?m+'m ':'')+se+'s';
+  // bar chart
+  const bc=document.getElementById('barChart');bc.innerHTML='';
+  S.scores.forEach((sc,i)=>{
+    const pct2=Math.round(sc.pts/sc.max*100);
+    const d=document.createElement('div');d.className='bc';
+    d.innerHTML=`<div class="bf" style="height:0%;background:${sc.correct?'linear-gradient(180deg,#10B981,#06B6D4)':'linear-gradient(180deg,#EF4444,#F97316)'}"></div><div class="bl">${i+1}</div>`;
+    bc.appendChild(d);
+    setTimeout(()=>{d.querySelector('.bf').style.height=pct2+'%';},i*70+200);
+  });
+  const earned=S.sessionScore+Math.round(pct/2);
+  S.totalPts+=earned;S.xp+=earned;
+  updateHdr();
+  toast(`+${earned} poin diperoleh! 🎉`,'ok');
+  showScr('resultScreen');
+}
+
+function replayQuiz(){
+  S.current=0;S.answers=[];S.scores=[];S.sessionScore=0;S.startTime=Date.now();
+  document.getElementById('smFill').style.width='0%';
+  document.getElementById('smVal').textContent='0 pts';
+  showScr('quizScreen');renderQ();
+}
+</script>
+</body>
+</html>
